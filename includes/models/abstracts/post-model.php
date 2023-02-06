@@ -540,8 +540,6 @@ abstract class Post_Model
 			$new_arr[] = $this->get_allowed_data( $nested_arr, $allowed_keys );
 		}
 
-		HYSTERYALE_UPDATER()->debug_log( 'get_allowed_data', $arr, $new_arr );
-
 		return $new_arr;
 	}
 
