@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Plugin Name: HysterYale Feed Integrtion
+ * Plugin Name: HysterYale Feed Integration
  * Plugin URI: http://www.hysteryale.com/
  * Description: Updates HysterYale product data from the API feed
  * Version: 3.0.1
@@ -323,7 +323,7 @@ final class HYSTERYALE_UPDATER
 	{
 		return admin_url( 'admin-ajax.php', 'relative' );
 	}
-	
+
 	/**
 	 * log information to the debug log
 	 * @param  string|array $log [description]
@@ -343,7 +343,7 @@ final class HYSTERYALE_UPDATER
 
 	public function debug_log()
 	{
-		$log_location = $this->plugin_path() . '/hyg-debug.log';
+		$log_location = $this->plugin_path() . '/logs/hyg-debug.log';
 		$datetime = new DateTime( 'NOW' );
 		$timestamp = $datetime->format( 'Y-m-d H:i:s' );
 		$args = func_get_args();
