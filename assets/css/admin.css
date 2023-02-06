@@ -1,0 +1,76 @@
+/* -----------------------------------------------
+ Progress
+-------------------------------------------------- */
+
+.progress {
+    line-height: 2em;
+    margin-top: 25px;
+}
+
+    .progress__bar {
+        width: 100%;
+        max-width: 435px;
+        height: 5px;
+        padding: 0;
+        border-radius: 3px;
+        -webkit-appearance: none;
+    }
+
+        .progress__bar::-webkit-progress-bar {
+            border-radius: 3px;
+            background: #fff;
+        }
+
+        .progress__bar::-webkit-progress-value {
+            border-radius: 3px;
+            background-color: #0074a2;
+        }
+
+    .progress__text {
+        display: block;
+    }
+
+/* -----------------------------------------------
+ Settings Page
+-------------------------------------------------- */
+
+/*
+.import-list {
+}
+
+.import-list li {
+    padding: 8px 15px;
+}
+
+.import-list > li {
+    background: #ccc;
+    border: 1px solid #ccc;
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+
+.import-list ul.level-2 {
+    background: #fff;
+    margin: 0 -15px;
+}
+
+.import-list ul.level-2:first-of-type {
+    margin-top: 15px;
+}
+
+.import-list ul.level-2 > li {
+    padding-left: 40px;
+}
+
+.import-list ul.level-2 > li:nth-child(odd) {
+    background: whitesmoke;
+}
+
+.import-list ul.level-3 {
+    margin-top: 5px;
+}
+
+.import-list ul.level-3 li {
+    padding: 0 30px;
+}
+*/
