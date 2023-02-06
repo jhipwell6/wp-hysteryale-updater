@@ -358,10 +358,10 @@ final class HYSTERYALE_UPDATER
 }
 
 /**
- * Returns the main instance of WP_MVC to prevent the need to use globals.
+ * Returns the main instance of HYSTERYALE_UPDATER to prevent the need to use globals.
  *
  * @since  0.1
- * @return WP_MVC
+ * @return HYSTERYALE_UPDATER
  */
 function HYSTERYALE_UPDATER()
 {
