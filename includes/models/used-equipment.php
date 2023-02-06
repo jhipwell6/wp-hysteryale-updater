@@ -96,6 +96,11 @@ class Used_Equipment extends Post_Model
 	{
 		return $this->get_prop( 'serial' );
 	}
+	
+	public function has_serial()
+	{
+		return (bool) $this->get_serial();
+	}
 
 	public function get_hours()
 	{

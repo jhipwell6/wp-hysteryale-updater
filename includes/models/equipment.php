@@ -227,12 +227,27 @@ class Equipment extends Post_Model
 
 	public function get_price()
 	{
-		return $this->get_prop( 'price' );
+		return $this->get_prop('price');
 	}
-
+	
 	public function has_price()
 	{
 		return (bool) $this->get_price();
+	}
+
+	public function get_serial()
+	{
+		return $this->get_prop('serial');
+	}
+	
+	public function has_serial()
+	{
+		return (bool) $this->get_serial();
+	}
+	
+	public function get_hours()
+	{
+		return $this->get_prop('hours');
 	}
 
 	public function get_stock_number()
