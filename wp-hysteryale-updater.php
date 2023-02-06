@@ -241,12 +241,12 @@ final class HYSTERYALE_UPDATER
 
 		wp_enqueue_style(
 			'hysteryale-updater-admin'
-			, $this->plugin_url . 'assets/css/admin.css'
+			, $this->plugin_url() . '/assets/css/admin.css'
 		);
 
 		wp_enqueue_script(
 			'hysteryale-updater-admin'
-			, $this->plugin_url . 'assets/js/admin.js'
+			, $this->plugin_url() . '/assets/js/admin.js'
 			, array( 'jquery' )
 			, false
 			, true
