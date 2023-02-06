@@ -367,7 +367,7 @@ class HYG_API
 			$Equipment = HYSTERYALE_UPDATER()->equipment();
 			$Equipment = $Equipment->get_by_unique_key( $product['hysteryale_id'] );
 			$Equipment->make( $data[$key] );
-			$Equipment = $Equipment->save(); // todo: set title and slug
+			$Equipment = $Equipment->save();
 
 			Progress::update( 'index', $counter );
 			$counter ++;

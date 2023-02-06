@@ -115,12 +115,10 @@ abstract class Post_Model
 	public function get_post_content( $apply_filters = false )
 	{
 		$prop = $this->get_wp_prop( 'post_content' );
-		if ( null === $this->{$prop} ) {
-			if ( $apply_filters ) {
-				$this->{$prop} = apply_filters( 'the_content', get_the_content( null, false, $this->get_id() ) );
-			} else {
-				$this->{$prop} = get_the_content( null, false, $this->get_id() );
-			}
+		if ( $apply_filters ) {
+			$this->{$prop} = apply_filters( 'the_content', get_the_content( null, false, $this->get_id() ) );
+		} else {
+			$this->{$prop} = get_the_content( null, false, $this->get_id() );
 		}
 		return $this->{$prop};
 	}
@@ -128,24 +126,20 @@ abstract class Post_Model
 	public function get_post_date( $format = '' )
 	{
 		$prop = $this->get_wp_prop( 'post_date' );
-		if ( null === $this->{$prop} ) {
-			$this->{$prop} = get_the_date( $format, $this->get_id() );
-		}
+		$this->{$prop} = get_the_date( $format, $this->get_id() );
 		return $this->{$prop};
 	}
 
 	public function get_updated_at( $format = 'Y-m-d h:i:s' )
 	{
-		if ( null === $this->updated_at ) {
-			$this->updated_at = get_the_modified_time( $format, $this->get_id() );
-		}
+		$this->updated_at = get_the_modified_time( $format, $this->get_id() );
 		return $this->updated_at;
 	}
 
 	public function save_post_title( $value )
 	{
 		$prop = $this->get_wp_prop( 'post_title' );
-		$post_id = $this->save_wp_prop( $prop, $value, 'post_title' );
+		$post_id = $this->save_wp_prop( $value, 'post_title' );
 		if ( $post_id ) {
 			$this->{$prop} = get_the_title( $post_id );
 		}
@@ -154,7 +148,7 @@ abstract class Post_Model
 	public function save_post_content( $value )
 	{
 		$prop = $this->get_wp_prop( 'post_content' );
-		$post_id = $this->save_wp_prop( $prop, $value, 'post_content' );
+		$post_id = $this->save_wp_prop( $value, 'post_content' );
 		if ( $post_id ) {
 			$this->{$prop} = apply_filters( 'the_content', get_the_content( null, false, $post_id ) );
 		}
@@ -163,17 +157,15 @@ abstract class Post_Model
 	public function save_post_date( $value, $return_format = '' )
 	{
 		$prop = $this->get_wp_prop( 'post_date' );
-		$post_id = $this->save_wp_prop( $prop, $value, 'post_date' );
+		$post_id = $this->save_wp_prop( $value, 'post_date' );
 		if ( $post_id ) {
 			$this->{$prop} = get_the_date( $return_format, $post_id );
 		}
 	}
-
-	private function save_wp_prop( $prop, $value, $wp_prop )
+	
+	private function save_wp_prop( $value, $wp_prop )
 	{
-		$prop = $this->get_wp_prop( $wp_prop );
-		$getter = "get_{$prop}";
-		if ( $value != $this->{$getter}() ) {
+		if ( $value != '' ) {
 			$args = array(
 				'ID' => $this->get_id(),
 				$wp_prop => $value
@@ -181,8 +173,7 @@ abstract class Post_Model
 			if ( $wp_prop == 'post_date' ) {
 				$args['post_date_gmt'] = get_gmt_from_date( $value );
 			}
-			$post_id = wp_update_post( $args );
-			return $post_id;
+			return wp_update_post( $args );
 		}
 		return false;
 	}
@@ -590,6 +581,34 @@ abstract class Post_Model
 		}
 
 		$this->save_meta( $prop, $value );
+	}
+	
+	/*
+	 * Helpers
+	 */
+
+	protected function to_bool( $value )
+	{
+		return filter_var( $value, FILTER_VALIDATE_BOOLEAN );
+	}
+
+	protected function to_datetime( $value, $format = 'Y-m-d h:i:s' )
+	{
+		if ( $value ) {
+			$date = new \DateTime( $value );
+			$value = $date->format( $format );
+		}
+		return $value;
+	}
+
+	protected function to_currency( $value, $digits = 2, $no_symbol = false )
+	{
+		$formatter = new \NumberFormatter( 'en_US', \NumberFormatter::CURRENCY );
+		$formatter->setAttribute( \NumberFormatter::FRACTION_DIGITS, $digits );
+		if ( $no_symbol ) {
+			$formatter->setSymbol( \NumberFormatter::CURRENCY_SYMBOL, '' );
+		}
+		return $formatter->formatCurrency( floatval( $value ), 'USD' );
 	}
 
 }

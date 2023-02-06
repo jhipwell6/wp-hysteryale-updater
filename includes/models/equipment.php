@@ -13,6 +13,8 @@ class Equipment extends Post_Model
 	const UNIQUE_KEY = 'hysteryale_api_id';
 	const WP_PROPS = array(
 		'post_title' => 'hygapi_title',
+		'post_content' => 'placeholder_content',
+		'post_date' => 'placeholder_date',
 	);
 	const ALIASES = array(
 		'api_id' => 'hysteryale_api_id',
@@ -40,6 +42,8 @@ class Equipment extends Post_Model
 	// meta
 	protected $hysteryale_api_id;
 	protected $hygapi_title;
+	protected $placeholder_content;
+	protected $placeholder_date;
 	protected $hygapi_description;
 	protected $hygapi_url;
 	protected $hygapi_brand;
@@ -80,6 +84,16 @@ class Equipment extends Post_Model
 	public function get_hygapi_title()
 	{
 		return $this->get_post_title();
+	}
+	
+	public function get_placeholder_content( $apply_filters = false )
+	{
+		return $this->get_post_content( $apply_filters );
+	}
+	
+	public function get_placeholder_date( $format = 'Y-m-d h:i:s' )
+	{
+		return $this->get_post_date( $format );
 	}
 
 	public function get_hygapi_description()
@@ -329,6 +343,16 @@ class Equipment extends Post_Model
 	{
 		return $this->set_prop( 'hygapi_title', $value );
 	}
+	
+	public function set_placeholder_content( $value )
+	{
+		return $this->set_prop( 'placeholder_content', ' ' );
+	}
+	
+	public function set_placeholder_date( $value )
+	{
+		return $this->set_prop( 'placeholder_date', '' );
+	}
 
 	public function set_hygapi_description( $value )
 	{
@@ -484,6 +508,19 @@ class Equipment extends Post_Model
 	public function save_hygapi_title_meta( $value )
 	{
 		return $this->save_post_title( $value );
+	}
+
+	public function save_placeholder_content_meta( $value )
+	{
+		if ( is_array( $value ) || ! $value ) {
+			$value = ' ';
+		}
+		return $this->save_post_content( $value );
+	}
+
+	public function save_placeholder_date_meta( $value, $return_format = '' )
+	{
+		return $this->save_post_date( $this->to_datetime( $value ), $return_format );
 	}
 
 	public function save_hygapi_features_meta( $value )
