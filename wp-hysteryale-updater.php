@@ -4,7 +4,7 @@
  * Plugin Name: HysterYale Feed Integration
  * Plugin URI: http://www.hysteryale.com/
  * Description: Updates HysterYale product data from the API feed
- * Version: 3.1
+ * Version: 3.1.1
  * Author: WebFX
  * Author URI: https://webfx.com/
  * GitHub Plugin URI: jhipwell6/wp-hysteryale-updater
@@ -19,7 +19,7 @@ final class HYSTERYALE_UPDATER
 	/**
 	 * @var string
 	 */
-	public $version = '3.1';
+	public $version = '3.1.1';
 
 	/**
 	 * @var string
@@ -102,11 +102,22 @@ final class HYSTERYALE_UPDATER
 		$this->includes();
 
 		// Hooks
-		add_action( 'init', array( $this, 'init' ), 100 );
-		add_action( 'admin_init', array( $this, 'admin_init' ), 100 );
+		add_action( 'plugins_loaded', array( $this, 'init' ), 0 );
+	}
 
-		add_action( 'admin_enqueue_scripts', array( $this, 'admin_assets' ) );
-		add_action( 'wp_enqueue_scripts', array( $this, 'frontend_assets' ) );
+	/**
+	 * Setup needed includes and actions for plugin
+	 * @hooked plugins_loaded -20
+	 */
+	public function init()
+	{
+		do_action( 'before_hysteryale_updater_init' );
+
+		$this->includes();
+		$this->init_hooks();
+		$this->init_factories();
+
+		do_action( 'after_hysteryale_updater_init' );
 	}
 
 	/**
@@ -160,7 +171,6 @@ final class HYSTERYALE_UPDATER
 	 */
 	private function includes()
 	{
-
 		// Core
 		include_once $this->plugin_path() . '/includes/core/autoload.php';
 		include_once $this->plugin_path() . '/includes/helpers/general-functions.php';
@@ -205,30 +215,6 @@ final class HYSTERYALE_UPDATER
 		include_once $this->plugin_path() . '/includes/controllers/progress.php';
 	}
 
-	/**
-	 * Runs when wordpress fires init action
-	 *
-	 * @return void
-	 */
-	public function init( $hook )
-	{
-		do_action( 'before_hysteryale_updater_init' );
-
-		$this->init_factories();
-
-		do_action( 'after_hysteryale_updater_init' );
-	}
-
-	public function admin_init()
-	{
-		
-	}
-
-	public function frontend_assets()
-	{
-		
-	}
-
 	public function admin_assets( $hook )
 	{
 		$screen = get_current_screen();
@@ -252,6 +238,11 @@ final class HYSTERYALE_UPDATER
 			, false
 			, true
 		);
+	}
+	
+	public function init_hooks()
+	{
+		add_action( 'admin_enqueue_scripts', array( $this, 'admin_assets' ) );
 	}
 
 	/**

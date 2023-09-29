@@ -4,7 +4,7 @@
  * Plugin Name: HysterYale Feed Integration
  * Plugin URI: http://www.hysteryale.com/
  * Description: Updates HysterYale product data from the API feed
- * Version: 3.1
+ * Version: 3.1.1
  * Author: WebFX
  * Author URI: https://webfx.com/
  * GitHub Plugin URI: jhipwell6/wp-hysteryale-updater
