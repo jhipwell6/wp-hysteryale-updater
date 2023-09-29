@@ -28,6 +28,7 @@ class Equipment extends Post_Model
 		'category' => 'hygapi_category',
 		'type' => 'hygapi_type',
 		'tagline' => 'hygapi_tagline',
+		'models' => 'hygapi_models',
 		'features' => 'hygapi_features',
 		'metadata' => 'hygapi_metadata',
 		'content' => 'hygapi_content',
@@ -53,6 +54,7 @@ class Equipment extends Post_Model
 	protected $hygapi_category;
 	protected $hygapi_type;
 	protected $hygapi_tagline;
+	protected $hygapi_models;
 	protected $hygapi_features;
 	protected $hygapi_metadata;
 	protected $hygapi_content;
@@ -139,6 +141,15 @@ class Equipment extends Post_Model
 	public function get_hygapi_tagline()
 	{
 		return $this->get_prop( 'hygapi_tagline' );
+	}
+	
+	public function get_hygapi_models()
+	{
+		if ( null === $this->hygapi_models ) {
+			$this->get_prop( 'hygapi_models' );
+			$this->hygapi_models = $this->flatten_array_values( $this->hygapi_models, 'model' );
+		}
+		return $this->hygapi_models;
 	}
 
 	public function get_hygapi_features()
@@ -413,6 +424,11 @@ class Equipment extends Post_Model
 	{
 		return $this->set_prop( 'hygapi_tagline', $value );
 	}
+	
+	public function set_hygapi_models( $value )
+	{
+		return $this->set_prop( 'hygapi_models', array_values( $value ) );
+	}
 
 	public function set_hygapi_features( $value )
 	{
@@ -536,6 +552,15 @@ class Equipment extends Post_Model
 	public function save_placeholder_date_meta( $value, $return_format = '' )
 	{
 		return $this->save_post_date( $this->to_datetime( $value ), $return_format );
+	}
+	
+	public function save_hygapi_models_meta( $value )
+	{
+		$arr = array();
+		foreach ( $value as $url ) {
+			$arr[]['model'] = $url;
+		}
+		return update_field( 'hygapi_models', $arr, $this->get_id() );
 	}
 
 	public function save_hygapi_features_meta( $value )
