@@ -99,7 +99,6 @@ final class HYSTERYALE_UPDATER
 	protected function __construct()
 	{
 		$this->define_constants();
-		$this->includes();
 
 		// Hooks
 		add_action( 'plugins_loaded', array( $this, 'init' ), 0 );
