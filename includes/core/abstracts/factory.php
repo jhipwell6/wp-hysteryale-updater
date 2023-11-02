@@ -5,6 +5,7 @@ namespace HysterYale\Updater\Core\Abstracts;
 use \ArrayAccess;
 use \Countable;
 use \IteratorAggregate;
+use \Traversable;
 
 if ( ! defined( 'ABSPATH' ) )
 	exit;
