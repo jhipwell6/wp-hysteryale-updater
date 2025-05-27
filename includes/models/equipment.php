@@ -307,8 +307,12 @@ class Equipment extends Post_Model
 				if ( $this->is_hyg_equipment() ) {
 					$this->image = $this->get_hygapi_image();
 				} else {
-					$image = array_first( get_field( 'images', $this->get_id() ) );
-					$this->image = isset( $image['url'] ) ? $image['url'] : '';
+					$images = get_field( 'images', $this->get_id() );
+					if ( ! empty( $images ) ) {
+						$image = array_first( $images );
+						$this->image = isset( $image['url'] ) ? $image['url'] : '';
+					}
+					$this->image = false;
 				}
 			}
 		}
@@ -329,6 +333,7 @@ class Equipment extends Post_Model
 	{
 		if ( null === $this->forklifts_term_id ) {
 			$forklifts = get_term_by( 'name', 'Forklifts', 'equipment_category' );
+			$forklifts = apply_filters( 'hygapi/get_forklift_term', $forklifts );
 			$this->forklifts_term_id = $forklifts && is_object( $forklifts ) ? $forklifts->term_id : false;
 		}
 		return $this->forklifts_term_id;
